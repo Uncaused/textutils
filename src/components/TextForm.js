@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 
 export default function TextForm(props) {
   const handleUpClick = () => {
@@ -13,7 +13,7 @@ export default function TextForm(props) {
   };
 
   function clearText() {
-    setText("")
+    setText("");
   }
 
   function handleCopy() {
@@ -24,21 +24,21 @@ export default function TextForm(props) {
 
   function handleExtraSpaces() {
     let newText = text.split(/[  ]+/);
-    setText(newText.join(" "))
+    setText(newText.join(" "));
   }
 
   function firstLetterUp() {
-    var words = text.split(' ');
+    var words = text.split(" ");
     var CapitalizedWords = [];
-    words.forEach(element => {
-      CapitalizedWords.push(element[0].toUpperCase() + element.slice(1, element.length));
+    words.forEach((element) => {
+      CapitalizedWords.push(
+        element[0].toUpperCase() + element.slice(1, element.length)
+      );
     });
-    setText(CapitalizedWords.join(' '))
+    setText(CapitalizedWords.join(" "));
   }
 
   const [text, setText] = React.useState("");
-  let words = text.split(' ').filter((n) => { return n !== '' });
-  // if (text.length === 0) words = [];
   return (
     <>
       <div className="container">
@@ -50,11 +50,15 @@ export default function TextForm(props) {
             onChange={handleOnChange}
             id="myBox"
             rows="8"
-            style={{ backgroundColor: props.mode === 'light' ? 'white' : '#195d61', color: props.mode === 'dark' ? 'white' : 'black' }}
+            style={{
+              backgroundColor: props.mode === "light" ? "white" : "#242738",
+              color: props.mode === "dark" ? "white" : "black",
+            }}
           ></textarea>
         </div>
         <div id="buttons">
           <button
+            disabled={text.length === 0}
             type="button"
             className="btn btn-success mx-2 my-2"
             onClick={handleUpClick}
@@ -62,6 +66,7 @@ export default function TextForm(props) {
             Convert Text To UpperCase
           </button>
           <button
+            disabled={text.length === 0}
             type="button"
             className="btn btn-primary mx-2 my-2"
             onClick={handleLowClick}
@@ -69,6 +74,7 @@ export default function TextForm(props) {
             Convert Text To LowerCase
           </button>
           <button
+            disabled={text.length === 0}
             type="button"
             className="btn btn-secondary mx-2 my-2"
             onClick={clearText}
@@ -76,6 +82,7 @@ export default function TextForm(props) {
             Clear Text
           </button>
           <button
+            disabled={text.length === 0}
             type="button"
             className="btn btn-danger mx-2 my-2"
             onClick={handleCopy}
@@ -83,6 +90,7 @@ export default function TextForm(props) {
             Copy Text
           </button>
           <button
+            disabled={text.length === 0}
             type="button"
             className="btn btn-warning mx-2 my-2"
             onClick={handleExtraSpaces}
@@ -90,11 +98,12 @@ export default function TextForm(props) {
             Remove extra spaces
           </button>
           <button
+            disabled={text.length === 0}
             type="button"
             className="btn btn-info mx-2 my-2"
             onClick={firstLetterUp}
           >
-            Make the first word to UpperCase
+            Make the first letter of words to UpperCase
           </button>
         </div>
       </div>
@@ -102,11 +111,27 @@ export default function TextForm(props) {
       <div className="container my-4" id="preview-waala">
         <h2>Your text summary</h2>
         <p>
-          <b>{words.length} words</b> and <b>{text.length} charecters</b>
+          <b>
+            {
+              text.split(/\s+/).filter((element) => {
+                return element.length !== 0;
+              }).length
+            }{" "}
+            words
+          </b>{" "}
+          and <b>{text.length} characters</b>
         </p>
         <p>
-          Takes <b>{0.008 * words.length * 60} seconds</b> for an average reader
-          to read this text
+          Takes{" "}
+          <b>
+            {0.008 *
+              text.split(/\s+/).filter((element) => {
+                return element.length !== 0;
+              }).length *
+              60}{" "}
+            seconds
+          </b>{" "}
+          for an average reader to read this text
         </p>
       </div>
     </>
